@@ -409,6 +409,10 @@ module.exports = function (app) {
                 .findOrCreate({where: {groupid: userValue.groupid}, defaults:
                 {groupname: userValue.groupname,
                     groupid: userValue.groupid}})
+                .then(function (results,error) {
+                    res.json({ message: 'duplicate record exists' })
+                })
+                
                 .spread(function(user, created) {
                     console.log(user.get({
                         plain: true
@@ -983,12 +987,12 @@ module.exports = function (app) {
      curl -i -X POST 'http://localhost:3000/v1/api/tasks
 
 
-     @apiSuccess {Number}   taskid    Task Id.
-     @apiSuccess {String}     taskname   Task Name.
-     @apiSuccess {Number}   listid    List Id
-     @apiSuccess {DateTime}   createdAt Create DateTime.
-     @apiSuccess {DateTime}   updatedAt    Updated DateTime.
-     @apiSuccess {Number}   id  User Id
+     @apiParam {Number}   taskid    Task Id.
+     @apiParam {String}     taskname   Task Name.
+     @apiParam {Number}   listid    List Id
+     @apiParam {DateTime}   createdAt Create DateTime.
+     @apiParam {DateTime}   updatedAt    Updated DateTime.
+     @apiParam {Number}   id  User Id
 
      @apiError NoAccessRight Only authenticated Admins can access the data.
      @apiError UserNotFound   The <code>id</code> of the User was not found.
