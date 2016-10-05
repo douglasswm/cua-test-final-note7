@@ -422,9 +422,18 @@ module.exports = function (app) {
                 .spread(function(user, created) {
                     console.log(user.get({
                         plain: true
-                    }));
-                    console.log(created)
-                    res.json({ message: 'New group created !' });
+                    }))
+                        .then(function (created){
+                
+
+                            console.log(created);
+                            res.json({ message: 'New group created !' })
+                        
+                        }).catch(function (err) {
+                        console.error(err);
+                        res.status(500).send(err);
+                    })
+                    
                 })
         });
 
