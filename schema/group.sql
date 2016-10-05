@@ -1,0 +1,7 @@
+CREATE TABLE `group` (
+  `groupid` int(11) NOT NULL AUTO_INCREMENT,
+  `groupname` varchar(100) NOT NULL,
+  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`groupid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
