@@ -27,7 +27,6 @@ module.exports = function (app) {
     }
 
     // USER ENDPOINTS
-
     /**
       * Documentation goes here
      @api {get} /api/users Get All users
@@ -36,30 +35,23 @@ module.exports = function (app) {
      @apiName GetAllUser
      @apiGroup User
 
-     @apiDescription Retrieve all user record.
+     @apiDescription Retrieve alll user record.
 
      @apiExample Example usage:
      curl -i -X GET 'http://localhost:3000/v1/api/users'
 
-     @apiSuccess {Number}   id          The Users-ID.
-     @apiSuccess {Date}     createdAt   Registration Date.
-     @apiSuccess {String}   email    Email Address of User
-     @apiSuccess {Number}   sign_in_count Sign in count.
-     @apiSuccess {Number}   phone    Users phone.
-     @apiSuccess {String}   avatar_image_uid  Avatar-Image.
-
-
-
-
-
-     "name": null,
-     "phone": null,
-     "bio": null,
-     "authentication_token": null,
-
-     "updatedAt": "2016-10-05T05:12:55.000Z",
-     "reset_password_sent_at": null,
-     "groupid": 2
+     @apiSuccess {Number}   id    The Users-ID.
+     @apiSuccess {String}   email    User Email Address.
+     @apiSuccess {String}   encrypted_password    Encrypted Password.
+     @apiSuccess {String}     reset_password_token   Reset Password Token.
+     @apiSuccess {String}   name    Fullname of the User.
+     @apiSuccess {String}   phone Phone of the User.
+     @apiSuccess {String}   bio    Biography of user.
+     @apiSuccess {String}   authentication_token  Authentication Token
+     @apiSuccess {DateTime}   createdAt  Created Time
+     @apiSuccess {DateTime}   updatedAt  Updated Time
+     @apiSuccess {DateTime}   reset_password_sent_at  DateTime of reset password
+     @apiSuccess {Number}   groupid    Group Id
 
      @apiError NoAccessRight Only authenticated Admins can access the data.
      @apiError UserNotFound   The <code>id</code> of the User was not found.
@@ -121,8 +113,8 @@ module.exports = function (app) {
      @apiExample Example usage:
      curl -i -X POST 'http://localhost:3000/v1/api/users'
 
-     @apiParam {String} email Email address of the user.
-     @apiParam {String} name Fullname of the user.
+     @apiSuccess {String}   email    User Email Address.
+     @apiSuccess {Number}   groupid    Group Id
 
      @apiSuccess {String}   message    Message.
 
@@ -204,9 +196,10 @@ module.exports = function (app) {
      @apiExample Example usage:
      curl -i -X PUT 'http://localhost:3000/v1/api/users'
 
-     @apiParam {Number} id User-Id.
-     @apiParam {String} name Fullname of the user.
 
+     @apiSuccess {String}   email    User Email Address.
+     @apiSuccess {Number}   groupid    Group Id
+     @apiSuccess {String}   name    User Name.
      @apiSuccess {String}   message    Message.
 
 
@@ -290,27 +283,24 @@ module.exports = function (app) {
         });
     });
 
-
 // GROUP ENDPOINTS
     /**
       * Documentation goes here
-     @api {get} /api/users Get All users
-     @apiSampleRequest http://localhost:3000/v1/api/users
+     @api {get} /api/users Get All Groups
+     @apiSampleRequest http://localhost:3000/v1/api/groups
      @apiVersion 1.0.0
-     @apiName GetAllUser
-     @apiGroup User
+     @apiName GetAllGroups
+     @apiGroup Groups
 
-     @apiDescription Retrieve alll user record.
+     @apiDescription Retrieve alll group.
 
      @apiExample Example usage:
-     curl -i -X GET 'http://localhost:3000/v1/api/users'
+     curl -i -X GET 'http://localhost:3000/v1/api/groups'
 
-     @apiSuccess {Number}   id    The Users-ID.
-     @apiSuccess {Date}     remember_created_at   Registration Date.
-     @apiSuccess {String}   name    Fullname of the User.
-     @apiSuccess {Number}   sign_in_count Sign in count.
-     @apiSuccess {Number}   phone    Users phone.
-     @apiSuccess {String}   avatar_image_uid  Avatar-Image.
+     @apiSuccess {Number}   groupid    Group ID.
+     @apiSuccess {String}     groupname   Group Name.
+     @apiSuccess {DateTime}   createdAt    Created DateTime.
+     @apiSuccess {DateTime}   updatedAt Updated DateTime.
 
      @apiError NoAccessRight Only authenticated Admins can access the data.
      @apiError UserNotFound   The <code>id</code> of the User was not found.
@@ -336,19 +326,18 @@ module.exports = function (app) {
 
     /**
       * Documentation goes here
-     @api {get} /api/users/:id/:email Get user detailed
-     @apiSampleRequest http://localhost:3000/v1/api/users/:id/:email
+     @api {get} /api/users/:id/:email Get group detailed
+     @apiSampleRequest http://localhost:3000/v1/api/groups/:groupid
      @apiVersion 1.0.0
-     @apiName GetUserDetailed
-     @apiGroup User
+     @apiName GetGroupDetailed
+     @apiGroup Groups
 
-     @apiDescription Get User Detailed
+     @apiDescription Get Group Detailed
 
      @apiExample Example usage:
-     curl -i -X GET 'http://localhost:3000/v1/api/users/:id/:email'
+     curl -i -X GET 'http://localhost:3000/v1/api/groups/:groupid'
 
-     @apiParam {Number} id Users unique ID.
-     @apiParam {String} email User Email.
+     @apiParam {Number} groupid Group unique ID.
 
      @apiSuccess {String}   message    Message.
 
@@ -376,36 +365,37 @@ module.exports = function (app) {
             res.status(500).send(err);
         });
     });
-        
-        /**
-          * Documentation goes here
-         @api {post} /api/users Create New user
-         @apiSampleRequest http://localhost:3000/v1/api/users
-         @apiVersion 1.0.0
-         @apiName CreateUser
-         @apiGroup User
 
-         @apiDescription Insert new user
+    /**
+      * Documentation goes here
+     @api {post} /api/groups Create New group
+     @apiSampleRequest http://localhost:3000/v1/api/groups
+     @apiVersion 1.0.0
+     @apiName CreateGroup
+     @apiGroup Groups
 
-         @apiExample Example usage:
-         curl -i -X POST 'http://localhost:3000/v1/api/users'
+     @apiDescription Insert new group
 
-         @apiParam {String} email Email address of the user.
-         @apiParam {String} name Fullname of the user.
+     @apiExample Example usage:
+     curl -i -X POST 'http://localhost:3000/v1/api/groups'
 
-         @apiSuccess {String}   message    Message.
+     @apiParam {Number} groupid Group Id.
+     @apiParam {String} groupname Group Name.
+
+     @apiSuccess {String}   message    Message.
 
 
 
-         @apiError NoAccessRight Only authenticated Admins can access the data.
-         @apiError UserNotCreated   The <name>name</name> of the User cannot be created.
+     @apiError NoAccessRight Only authenticated Admins can access the data.
+     @apiError GroupNotCreated   The <name>name</name> of the Group cannot be created.
 
-         @apiErrorExample Response (example):
-             HTTP/1.1 401 Not Authenticated
-             {
+     @apiErrorExample Response (example):
+         HTTP/1.1 401 Not Authenticated
+         {
       "error": "NoAccessRight"
     }
-          */
+      */
+
 
         //CREATE NEW GROUP
         app.post(version + "/api/groups", function (req, res) {
@@ -429,35 +419,35 @@ module.exports = function (app) {
                 })
         });
 
-        /**
-          * Documentation goes here
-         @api {put} /api/users Update Existing user
-         @apiSampleRequest http://localhost:3000/v1/api/users
-         @apiVersion 1.0.0
-         @apiName UpdateUser
-         @apiGroup User
+    /**
+      * Documentation goes here
+     @api {put} /api/groups Update Existing group
+     @apiSampleRequest http://localhost:3000/v1/api/groups
+     @apiVersion 1.0.0
+     @apiName UpdateGroup
+     @apiGroup Groups
 
-         @apiDescription Update existing user
+     @apiDescription Update existing group
 
-         @apiExample Example usage:
-         curl -i -X PUT 'http://localhost:3000/v1/api/users'
+     @apiExample Example usage:
+     curl -i -X PUT 'http://localhost:3000/v1/api/groups/:groupid'
 
-         @apiParam {Number} id User-Id.
-         @apiParam {String} name Fullname of the user.
+     @apiParam {Number} groupid Group Id.
+     @apiParam {String} groupname Group Name.
 
-         @apiSuccess {String}   message    Message.
+     @apiSuccess {String}   message    Message.
 
 
 
-         @apiError NoAccessRight Only authenticated Admins can access the data.
-         @apiError UserNotCreated   The <name>name</name> of the User cannot be created.
+     @apiError NoAccessRight Only authenticated Admins can access the data.
+     @apiError GroupNotCreated   The <name>name</name> of the Group cannot be created.
 
-         @apiErrorExample Response (example):
-             HTTP/1.1 401 Not Authenticated
-             {
+     @apiErrorExample Response (example):
+         HTTP/1.1 401 Not Authenticated
+         {
       "error": "NoAccessRight"
     }
-          */
+      */
 
 // UPDATE EXISTING GROUP
         app.put(version + "/api/groups/:groupid", function (req, res) {
@@ -497,7 +487,7 @@ module.exports = function (app) {
          @apiExample Example usage:
          curl -i -X DELETE 'http://localhost:3000/v1/api/users/:id'
 
-         @apiParam {Number} id Users unique ID.
+         @apiParam {Number} groupid Group Id.
 
          @apiSuccess {String}   message    Message.
 
@@ -531,23 +521,22 @@ module.exports = function (app) {
 // LIST ENDPOINTS
     /**
       * Documentation goes here
-     @api {get} /api/users Get All users
-     @apiSampleRequest http://localhost:3000/v1/api/users
+     @api {get} /api/lists Get All Lists
+     @apiSampleRequest http://localhost:3000/v1/api/lists
      @apiVersion 1.0.0
-     @apiName GetAllUser
-     @apiGroup User
+     @apiName GetAllList
+     @apiGroup List
 
-     @apiDescription Retrieve alll user record.
+     @apiDescription Retrieve alll List
 
      @apiExample Example usage:
-     curl -i -X GET 'http://localhost:3000/v1/api/users'
+     curl -i -X GET 'http://localhost:3000/v1/api/lists'
 
-     @apiSuccess {Number}   id    The Users-ID.
-     @apiSuccess {Date}     remember_created_at   Registration Date.
-     @apiSuccess {String}   name    Fullname of the User.
-     @apiSuccess {Number}   sign_in_count Sign in count.
-     @apiSuccess {Number}   phone    Users phone.
-     @apiSuccess {String}   avatar_image_uid  Avatar-Image.
+     @apiSuccess {Number}   listid    List Id.
+     @apiSuccess {String}     listname   List Name.
+     @apiSuccess {DateTime}   createdAt    Created Date Time.
+     @apiSuccess {DateTime}   updatedAt Updated Date Time.
+     @apiSuccess {Number}   groupid    Group Id.
 
      @apiError NoAccessRight Only authenticated Admins can access the data.
      @apiError UserNotFound   The <code>id</code> of the User was not found.
@@ -573,6 +562,30 @@ module.exports = function (app) {
 
 
 // GET SPECIFIC LIST
+    /**
+      * Documentation goes here
+     @api {get} /api/lists Get Specific list
+     @apiSampleRequest http://localhost:3000/v1/api/lists
+     @apiVersion 1.0.0
+     @apiName Get Specific List
+     @apiGroup List
+
+     @apiDescription Retrieve specific List
+
+     @apiExample Example usage:
+     curl -i -X GET 'http://localhost:3000/v1/api/lists/listid'
+
+     @apiSuccess {Number}   listid    List Id.
+
+     @apiError NoAccessRight Only authenticated Admins can access the data.
+     @apiError UserNotFound   The <code>id</code> of the User was not found.
+
+     @apiErrorExample Response (example):
+         HTTP/1.1 401 Not Authenticated
+         {
+      "error": "NoAccessRight"
+    }
+      */
     app.get(version + "/api/lists/:listid", function (req, res) {
         console.log("version 1");
         models.list.findOne({where: {listid: req.params.listid}})
@@ -587,6 +600,30 @@ module.exports = function (app) {
     });
 
     // GET LISTS BY GROUP
+    /**
+      * Documentation goes here
+     @api {get} /api/lists/group/:groupid Get list for specific group
+     @apiSampleRequest http://localhost:3000/v1/api/lists/group/:groupid
+     @apiVersion 1.0.0
+     @apiName Get List for specific group
+     @apiGroup List
+
+     @apiDescription Retrieve specific List
+
+     @apiExample Example usage:
+     curl -i -X GET 'http://localhost:3000/v1/api/lists/group/:groupid'
+
+     @apiSuccess {Number}   groupid    Group Id.
+
+     @apiError NoAccessRight Only authenticated Admins can access the data.
+     @apiError UserNotFound   The <code>id</code> of the User was not found.
+
+     @apiErrorExample Response (example):
+         HTTP/1.1 401 Not Authenticated
+         {
+      "error": "NoAccessRight"
+    }
+      */
     app.get(version + "/api/lists/group/:groupid", function (req, res) {
         console.log("version 1");
         models.list.findOne({where: {groupid: req.params.groupid}})
@@ -602,6 +639,32 @@ module.exports = function (app) {
 
 
     //CREATE NEW LIST
+    /**
+      * Documentation goes here
+     @api {get} /api/lists Create New List
+     @apiSampleRequest http://localhost:3000/v1/api/lists/
+     @apiVersion 1.0.0
+     @apiName Create New List
+     @apiGroup List
+
+     @apiDescription Create New List
+
+     @apiExample Example usage:
+     curl -i -X POST 'http://localhost:3000/v1/api/lists'
+
+     @apiSuccess {Number}   listid    List Id.
+     @apiSuccess {String}   listname    List Name.
+     @apiSuccess {Number}   groupid    Group Id.
+
+     @apiError NoAccessRight Only authenticated Admins can access the data.
+     @apiError UserNotFound   The <code>id</code> of the User was not found.
+
+     @apiErrorExample Response (example):
+         HTTP/1.1 401 Not Authenticated
+         {
+      "error": "NoAccessRight"
+    }
+      */
     app.post(version + "/api/lists", function (req, res) {
         console.info("hello");
         var grpdata = req.body;
@@ -636,8 +699,9 @@ module.exports = function (app) {
      @apiExample Example usage:
      curl -i -X PUT 'http://localhost:3000/v1/api/users'
 
-     @apiParam {Number} id User-Id.
-     @apiParam {String} name Fullname of the user.
+     @apiSuccess {Number}   listid    List Id.
+     @apiSuccess {String}   listname    List Name.
+     @apiSuccess {Number}   groupid    Group Id.
 
      @apiSuccess {String}   message    Message.
 
@@ -692,7 +756,7 @@ module.exports = function (app) {
      @apiExample Example usage:
      curl -i -X DELETE 'http://localhost:3000/v1/api/users/:id'
 
-     @apiParam {Number} id Users unique ID.
+     @apiParam {Number} listid List Id.
 
      @apiSuccess {String}   message    Message.
 
@@ -730,23 +794,23 @@ module.exports = function (app) {
 // TASK ENDPOINTS
     /**
       * Documentation goes here
-     @api {get} /api/users Get All users
-     @apiSampleRequest http://localhost:3000/v1/api/users
+     @api {get} /api/tasks Get All Tasks
+     @apiSampleRequest http://localhost:3000/v1/api/tasks
      @apiVersion 1.0.0
-     @apiName GetAllUser
-     @apiGroup User
+     @apiName GetAllTasks
+     @apiGroup Task
 
-     @apiDescription Retrieve alll user record.
+     @apiDescription Retrieve alll task
 
      @apiExample Example usage:
-     curl -i -X GET 'http://localhost:3000/v1/api/users'
+     curl -i -X GET 'http://localhost:3000/v1/api/tasks'
 
-     @apiSuccess {Number}   id    The Users-ID.
-     @apiSuccess {Date}     remember_created_at   Registration Date.
-     @apiSuccess {String}   name    Fullname of the User.
-     @apiSuccess {Number}   sign_in_count Sign in count.
-     @apiSuccess {Number}   phone    Users phone.
-     @apiSuccess {String}   avatar_image_uid  Avatar-Image.
+     @apiSuccess {Number}   taskid    Task Id.
+     @apiSuccess {String}     taskname   Task Name.
+     @apiSuccess {Number}   listid    List Id
+     @apiSuccess {DateTime}   createdAt Create DateTime.
+     @apiSuccess {DateTime}   updatedAt    Updated DateTime.
+     @apiSuccess {Number}   id  User Id
 
      @apiError NoAccessRight Only authenticated Admins can access the data.
      @apiError UserNotFound   The <code>id</code> of the User was not found.
@@ -772,6 +836,36 @@ module.exports = function (app) {
 
 
 // GET SPECIFIC TASK
+    /**
+      * Documentation goes here
+     @api {get} /api/tasks Get Specific Task Id
+     @apiSampleRequest http://localhost:3000/v1/api/tasks/:taskid
+     @apiVersion 1.0.0
+     @apiName GetTaskDetails
+     @apiGroup Task
+
+     @apiDescription Retrieve specific Task Detailed
+
+     @apiExample Example usage:
+     curl -i -X GET 'http://localhost:3000/v1/api/tasks/:taskid'
+
+
+     @apiSuccess {Number}   taskid    Task Id.
+     @apiSuccess {String}     taskname   Task Name.
+     @apiSuccess {Number}   listid    List Id
+     @apiSuccess {DateTime}   createdAt Create DateTime.
+     @apiSuccess {DateTime}   updatedAt    Updated DateTime.
+     @apiSuccess {Number}   id  User Id
+
+     @apiError NoAccessRight Only authenticated Admins can access the data.
+     @apiError UserNotFound   The <code>id</code> of the User was not found.
+
+     @apiErrorExample Response (example):
+         HTTP/1.1 401 Not Authenticated
+         {
+      "error": "NoAccessRight"
+    }
+      */
     app.get(version + "/api/tasks/:taskid", function (req, res) {
         console.log("version 1");
         models.task.findOne({where: {taskid: req.params.taskid}})
@@ -786,6 +880,36 @@ module.exports = function (app) {
     });
 
     // GET TaskS BY list
+    /**
+      * Documentation goes here
+     @api {get} /api/tasks/list Get Task By List
+     @apiSampleRequest http://localhost:3000/v1/api/tasks/list
+     @apiVersion 1.0.0
+     @apiName GetTaskByList
+     @apiGroup Task
+
+     @apiDescription Retrieve Task by List
+
+     @apiExample Example usage:
+     curl -i -X GET 'http://localhost:3000/v1/api/tasks/list
+
+
+     @apiSuccess {Number}   taskid    Task Id.
+     @apiSuccess {String}     taskname   Task Name.
+     @apiSuccess {Number}   listid    List Id
+     @apiSuccess {DateTime}   createdAt Create DateTime.
+     @apiSuccess {DateTime}   updatedAt    Updated DateTime.
+     @apiSuccess {Number}   id  User Id
+
+     @apiError NoAccessRight Only authenticated Admins can access the data.
+     @apiError UserNotFound   The <code>id</code> of the User was not found.
+
+     @apiErrorExample Response (example):
+         HTTP/1.1 401 Not Authenticated
+         {
+      "error": "NoAccessRight"
+    }
+      */
     app.get(version + "/api/tasks/list/:listid", function (req, res) {
         console.log("version 1");
         models.task.findOne({where: {listid: req.params.listid}})
@@ -800,6 +924,36 @@ module.exports = function (app) {
     });
 
  // GET TaskS BY user
+    /**
+      * Documentation goes here
+     @api {get} /api/tasks/user Get Task By User
+     @apiSampleRequest http://localhost:3000/v1/api/tasks/user
+     @apiVersion 1.0.0
+     @apiName GetTaskByUser
+     @apiGroup Task
+
+     @apiDescription Retrieve Task by User
+
+     @apiExample Example usage:
+     curl -i -X GET 'http://localhost:3000/v1/api/tasks/user
+
+
+     @apiSuccess {Number}   taskid    Task Id.
+     @apiSuccess {String}     taskname   Task Name.
+     @apiSuccess {Number}   listid    List Id
+     @apiSuccess {DateTime}   createdAt Create DateTime.
+     @apiSuccess {DateTime}   updatedAt    Updated DateTime.
+     @apiSuccess {Number}   id  User Id
+
+     @apiError NoAccessRight Only authenticated Admins can access the data.
+     @apiError UserNotFound   The <code>id</code> of the User was not found.
+
+     @apiErrorExample Response (example):
+         HTTP/1.1 401 Not Authenticated
+         {
+      "error": "NoAccessRight"
+    }
+      */
     app.get(version + "/api/tasks/user/:id", function (req, res) {
         console.log("version 1");
         models.task.findOne({where: {id: req.params.id}})
@@ -815,6 +969,36 @@ module.exports = function (app) {
 
 
     //CREATE NEW TASK
+    /**
+      * Documentation goes here
+     @api {post} /api/tasks Create Task
+     @apiSampleRequest http://localhost:3000/v1/api/tasks
+     @apiVersion 1.0.0
+     @apiName CreateNewTask
+     @apiGroup Task
+
+     @apiDescription Create new Task
+
+     @apiExample Example usage:
+     curl -i -X POST 'http://localhost:3000/v1/api/tasks
+
+
+     @apiSuccess {Number}   taskid    Task Id.
+     @apiSuccess {String}     taskname   Task Name.
+     @apiSuccess {Number}   listid    List Id
+     @apiSuccess {DateTime}   createdAt Create DateTime.
+     @apiSuccess {DateTime}   updatedAt    Updated DateTime.
+     @apiSuccess {Number}   id  User Id
+
+     @apiError NoAccessRight Only authenticated Admins can access the data.
+     @apiError UserNotFound   The <code>id</code> of the User was not found.
+
+     @apiErrorExample Response (example):
+         HTTP/1.1 401 Not Authenticated
+         {
+      "error": "NoAccessRight"
+    }
+      */
     app.post(version + "/api/tasks", function (req, res) {
         console.info("hello");
         var grpdata = req.body;
@@ -837,6 +1021,8 @@ module.exports = function (app) {
                 res.json({ message: 'New task created !' });
             })
     });
+
+    // UPDATE EXISTING task
 
     /**
       * Documentation goes here
@@ -868,7 +1054,7 @@ module.exports = function (app) {
     }
       */
 
-// UPDATE EXISTING task
+
     app.put(version + "/api/tasks/:taskid", function (req, res) {
         var taskdata = req.body;
         // var userValue = JSON.parse(usersdata);
@@ -896,6 +1082,7 @@ module.exports = function (app) {
         });
     });
 
+    // DELETE EXISTING LIST
     /**
       * Documentation goes here
      @api {delete} /api/users Delete  user
@@ -924,7 +1111,7 @@ module.exports = function (app) {
       "error": "NoAccessRight"
     }
       */
-// DELETE EXISTING LIST
+
     app.delete(version + "/api/tasks/:taskid", function (req, res) {
         models.task.destroy(
             { where: { taskid: req.params.taskid }}
